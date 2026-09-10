@@ -3,7 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>เซอร์ไพรส์! เปิดกล่องของขวัญ 🎁</title>
+  <title>คุณมี 1 ของขวัญพิเศษที่ยังไม่ได้เปิด 🎁</title>
+
+  <!-- Social Media & LINE / Facebook Preview Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="คุณมี 1 ของขวัญพิเศษที่ยังไม่ได้เปิด 🎁">
+  <meta property="og:description" content="มีคนส่งของขวัญพิเศษมาให้คุณ แตะที่นี่เพื่อเปิดดูข้างใน ✨">
+  <meta property="og:image" content="https://dcet87089-ship-it.github.io/kk/gift_preview.jpg">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="600">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="คุณมี 1 ของขวัญพิเศษที่ยังไม่ได้เปิด 🎁">
+  <meta name="twitter:description" content="มีคนส่งของขวัญพิเศษมาให้คุณ แตะที่นี่เพื่อเปิดดูข้างใน ✨">
+  <meta name="twitter:image" content="https://dcet87089-ship-it.github.io/kk/gift_preview.jpg">
+
   <!-- Google Fonts: Kanit, Itim, Caveat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,14 +33,14 @@
   <header class="top-bar">
     <div class="brand">
       <span class="sparkle-icon">🎁</span>
-      <span class="brand-text">Surprise Gift Box</span>
+      <span class="brand-text">Special Gift</span>
     </div>
     <div class="actions">
       <button id="sound-btn" class="nav-btn" title="เปิด/ปิดเสียง">
         <span id="sound-icon">🔊</span> เสียง
       </button>
       <button id="reset-btn" class="nav-btn reset-btn-hidden" title="ปิดกล่องเพื่อเปิดใหม่">
-        <span>🔄</span> ปิดกล่องใหม่อีกรอบ
+        <span>🔄</span> ปิดกล่องใหม่
       </button>
     </div>
   </header>
@@ -58,9 +73,9 @@
               <span class="bubble-sub">🌶️ นัวแซ่บไฟลุก! ⚽</span>
             </div>
 
-            <!-- Image Frame -->
+            <!-- Image Frame: Loaded dynamically on open so preview won't spoil it -->
             <div class="character-frame">
-              <img src="larb_man.jpg" alt="ลาบฃ" class="character-img" id="character-img">
+              <img data-src="larb_man.jpg" alt="ลาบฃ" class="character-img" id="character-img">
               <div class="shine-sweep"></div>
             </div>
 

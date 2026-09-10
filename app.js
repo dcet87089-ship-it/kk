@@ -300,6 +300,12 @@ function openGiftBox() {
     giftBox.classList.remove('shaking');
     giftBox.classList.add('opened');
 
+    // Load character image on open so link preview cannot scrape it beforehand
+    const charImg = document.getElementById('character-img');
+    if (charImg && (!charImg.src || charImg.src === window.location.href)) {
+      charImg.src = charImg.getAttribute('data-src') || 'larb_man.jpg';
+    }
+
     // 3. Eject Character with Spring Boing!
     surpriseCharacter.classList.add('popped');
     audio.playBoing();
