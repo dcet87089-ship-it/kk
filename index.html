@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เซอร์ไพรส์! เปิดกล่องของขวัญ 🎁</title>
+  <!-- Google Fonts: Kanit, Itim, Caveat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Itim&family=Kanit:ital,wght@0,400;0,600;0,800;0,900;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Background Sparkles & Confetti Canvas -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Top Action Bar -->
+  <header class="top-bar">
+    <div class="brand">
+      <span class="sparkle-icon">🎁</span>
+      <span class="brand-text">Surprise Gift Box</span>
+    </div>
+    <div class="actions">
+      <button id="sound-btn" class="nav-btn" title="เปิด/ปิดเสียง">
+        <span id="sound-icon">🔊</span> เสียง
+      </button>
+      <button id="reset-btn" class="nav-btn reset-btn-hidden" title="ปิดกล่องเพื่อเปิดใหม่">
+        <span>🔄</span> ปิดกล่องใหม่อีกรอบ
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Gift Stage -->
+  <main class="main-container">
+    <!-- Intro Prompt Text -->
+    <div class="intro-text" id="intro-text">
+      <h1 class="gift-title">มีของขวัญกล่องใหญ่ส่งตรงถึงคุณ! 🎁</h1>
+      <p class="gift-subtitle">ลองกดเปิดดูสิ... ว่ามีอะไรซ่อนอยู่ข้างใน? ✨</p>
+    </div>
+
+    <!-- 3D Gift Box Container with Surprise Character -->
+    <div class="gift-stage-wrapper">
+      <div class="gift-stage" id="gift-stage">
+        <div class="gift-glow" id="gift-glow"></div>
+
+        <!-- The Spring Character that BOINGS out of the box! -->
+        <div class="surprise-character" id="surprise-character">
+          <div class="spring-coil">
+            <div class="coil-ring"></div>
+            <div class="coil-ring"></div>
+            <div class="coil-ring"></div>
+          </div>
+
+          <div class="character-card" id="character-card">
+            <!-- Comic Speech Bubble -->
+            <div class="speech-bubble" id="speech-bubble">
+              <span class="bubble-title">ลาบฃ</span>
+              <span class="bubble-sub">🌶️ นัวแซ่บไฟลุก! ⚽</span>
+            </div>
+
+            <!-- Image Frame -->
+            <div class="character-frame">
+              <img src="larb_man.jpg" alt="ลาบฃ" class="character-img" id="character-img">
+              <div class="shine-sweep"></div>
+            </div>
+
+            <div class="character-caption">
+              <span>จานนี้พี่ตั้งใจยกมาเสิร์ฟเอง! 🥩✨</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Gift Box Element -->
+        <div class="gift-box" id="gift-box">
+          <!-- Bow Ribbon on top of lid -->
+          <div class="gift-bow">
+            <div class="bow-loop bow-left"></div>
+            <div class="bow-loop bow-right"></div>
+            <div class="bow-center"></div>
+          </div>
+
+          <!-- Lid (ฝากล่อง) -->
+          <div class="gift-lid">
+            <div class="lid-ribbon"></div>
+          </div>
+
+          <!-- Box Body (ตัวกล่อง) -->
+          <div class="gift-body">
+            <div class="body-ribbon-vertical"></div>
+            <div class="body-ribbon-horizontal"></div>
+            
+            <!-- Gift Tag -->
+            <div class="gift-tag">
+              <div class="tag-card">
+                <span>FOR YOU</span>
+                <small>♥</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Click Instruction Prompt -->
+        <div class="click-hint" id="click-hint">
+          <span class="finger-tap">👆</span>
+          <span>แตะที่กล่องเพื่อเปิดของขวัญ</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Surprise Action Panel (Appears after box opens) -->
+    <div class="surprise-controls" id="surprise-controls">
+      <button class="btn-bounce" id="bounce-again-btn">
+        💥 จิ้มให้เด้งอีกที!
+      </button>
+      <button class="btn-close-box" id="replay-btn">
+        🔄 ปิดกล่องแกล้งใหม่
+      </button>
+    </div>
+
+    <!-- Funny Celebration Card -->
+    <div class="congrats-card" id="congrats-card">
+      <div class="congrats-title">🎉 เซอร์ไพรส์ระดับตำนาน! 🎉</div>
+      <p class="congrats-text">
+        "เปิดกล่องมาไม่ได้มีแค่คำอวยพร... แต่มี <strong>ลาบฃ</strong> สดๆ ร้อนๆ <br>
+        เสิร์ฟพร้อมนักฟุตซอลสุดเท่ ถึงหน้าจอคุณแล้ววันนี้!"
+      </p>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
