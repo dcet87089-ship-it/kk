@@ -303,7 +303,7 @@ function openGiftBox() {
     // Load character image on open so link preview cannot scrape it beforehand
     const charImg = document.getElementById('character-img');
     if (charImg && (!charImg.src || charImg.src === window.location.href)) {
-      charImg.src = charImg.getAttribute('data-src') || 'larb_man.jpg';
+      charImg.src = charImg.getAttribute('data-src') || 'larb_npu.jpg?v=99';
     }
 
     // 3. Eject Character with Spring Boing!
