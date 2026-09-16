@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>A Special Message For You 💌 หายงอนเค้านะ...</title>
+
+  <!-- Open Graph Meta Tags for Sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="A Special Message For You 💌">
+  <meta property="og:description" content="มีข้อความในใจอยากบอก... แตะเพื่อเปิดอ่านนะ 🥺💖">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=800&auto=format&fit=crop&q=80">
+
+  <!-- Google Fonts: Itim, Caveat, Kanit, Dancing Script -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Dancing+Script:wght@700&family=Itim&family=Kanit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Floating Hearts Canvas -->
+  <canvas id="hearts-canvas"></canvas>
+
+  <!-- Sound Mute/Unmute Floating Button -->
+  <button id="sound-btn" class="sound-float-btn" title="เปิด/ปิดเสียง">
+    <span id="sound-icon">🔊</span>
+  </button>
+
+  <!-- Background Decorative Text -->
+  <div class="bg-decor-top">I coded this one just for you ♡</div>
+  <div class="bg-decor-side">You + Me ♡</div>
+
+  <!-- Main Container -->
+  <main class="app-container">
+    
+    <!-- Asking Stage Card (บัตรถามง้อ) -->
+    <div class="glass-card" id="question-card">
+      <!-- Top Tag Badge -->
+      <div class="card-badge">
+        <span class="heart-pulse">💌</span>
+        <span>A Special Message For You</span>
+      </div>
+
+      <!-- Cute Character Container -->
+      <div class="character-wrapper">
+        <img id="character-img" src="https://media.tenor.com/vHqB105x1L4AAAAM/mocha-crying.gif" alt="Pleading Bear" class="character-gif">
+        <div class="glow-ring"></div>
+      </div>
+
+      <!-- Main Title / Pleading Message -->
+      <h1 class="main-title" id="main-title">Do you love me?</h1>
+      <p class="main-subtitle" id="main-subtitle">หายงอนเค้านะ... คืนดีกันนะคนดี 🥺💖</p>
+      <div class="plead-note" id="plead-note">เค้าสัญญาว่าจะเป็นเด็กดี ไม่ดื้อไม่ซนแล้วค้าบ 🙇‍♂️</div>
+
+      <!-- Buttons Wrapper -->
+      <div class="buttons-container" id="buttons-container">
+        <!-- YES Button: คืนดีกันนะ (Grows bigger!) -->
+        <button id="yes-btn" class="btn btn-yes">
+          <span class="btn-heart">💖</span> 
+          <span id="yes-text">คืนดีกันนะ 💕</span>
+        </button>
+
+        <!-- NO Button: ไม่คืนดี (Runs away & changes!) -->
+        <button id="no-btn" class="btn btn-no">
+          <span id="no-text">ไม่คืนดี 😤</span>
+        </button>
+      </div>
+
+      <!-- Dodge Counter / Funny Hint -->
+      <div class="dodge-hint" id="dodge-hint">
+        ลองกดปุ่มปฏิเสธดูสิ... แต่อย่าใจร้ายนานนะ 🥺
+      </div>
+    </div>
+
+    <!-- Celebration Victory Card (ฉากจบสุขสมหวัง) -->
+    <div class="glass-card celebration-card" id="celebration-card" style="display: none;">
+      <div class="card-badge success-badge">
+        <span>🎉 YAY! WE ARE BACK TOGETHER 🎉</span>
+      </div>
+
+      <div class="character-wrapper happy-wrapper">
+        <img src="https://media.tenor.com/6UeK3CskjKMAAAAM/bubu-dudu-kiss.gif" alt="Happy Kiss" class="character-gif happy-gif">
+        <div class="confetti-ring"></div>
+      </div>
+
+      <h1 class="celebration-title">เย้้้้้! คืนดีกันแล้วววว 🥰💖</h1>
+      <p class="celebration-subtitle">
+        "ขอบคุณที่ยกโทษให้เค้านะคนเก่ง สัญญาว่าจะดูแลและรักเธอให้มากที่สุดในโลกเลยยย จุ๊บๆ 😘✨"
+      </p>
+
+      <div class="love-quote">
+        <span class="quote-symbol">❝</span>
+        <span>รักเธอนะครับ ขอบคุณที่อยู่ข้างๆ กันเสมอ ♡</span>
+        <span class="quote-symbol">❞</span>
+      </div>
+
+      <div class="celebration-actions">
+        <button id="hug-again-btn" class="btn btn-yes pulse-infinite">
+          🧸 กอดแน่นๆ อีกรอบ
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
