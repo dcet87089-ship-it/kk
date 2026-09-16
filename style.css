@@ -289,41 +289,42 @@ body {
 .buttons-area {
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  margin: 6px 0 10px;
+  gap: 16px;
+  margin: 10px 0 12px;
   position: relative;
-  min-height: 90px;
+  min-height: 70px;
 }
 
-/* YES BUTTON: เด่นตรงกลาง ขยายใหญ่ขึ้นเรื่อยๆ */
+/* YES BUTTON: เด่น น่ารัก ค่อยๆ ขยายใหญ่ */
 .btn-yes-center {
   background: linear-gradient(135deg, #ff2a5f 0%, #ff5277 50%, #ff758c 100%);
   color: #ffffff;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  padding: 14px 34px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  padding: 12px 26px;
   border-radius: 35px;
   font-family: 'Kanit', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 800;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  box-shadow: 0 8px 30px rgba(255, 42, 95, 0.7), 0 0 20px rgba(255, 51, 102, 0.5);
+  gap: 8px;
+  box-shadow: 0 6px 25px rgba(255, 42, 95, 0.6), 0 0 15px rgba(255, 51, 102, 0.4);
   animation: yesHeartbeat 2s infinite ease-in-out;
-  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
-  z-index: 50;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+  z-index: 10;
   position: relative;
   transform-origin: center center;
+  touch-action: manipulation;
 }
 
 @keyframes yesHeartbeat {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.06); box-shadow: 0 12px 40px rgba(255, 42, 95, 0.9); }
+  50% { transform: scale(1.05); box-shadow: 0 10px 35px rgba(255, 42, 95, 0.8); }
 }
 
 .btn-yes-center:active {
@@ -331,38 +332,39 @@ body {
 }
 
 .btn-icon {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   animation: pulseBeat 1.2s infinite;
 }
 
 /* NO BUTTON: กระโดดหนีทั่วจอ */
 .btn-no-dodger {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.18);
   color: #ffdce5;
-  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(10px);
-  padding: 10px 22px;
+  padding: 12px 22px;
   border-radius: 25px;
   font-family: 'Kanit', sans-serif;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  transition: all 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-  z-index: 100;
+  transition: transform 0.15s ease, background 0.2s;
+  z-index: 20;
   white-space: nowrap;
+  touch-action: manipulation;
 }
 
-/* When the NO button escapes, it flies freely */
+/* When the NO button escapes, it flies freely across the screen */
 .btn-no-dodger.dodging {
   position: fixed !important;
   z-index: 999999 !important;
   pointer-events: auto !important;
-  animation: dodgeWiggle 0.4s ease;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 51, 102, 0.6);
-  background: rgba(45, 10, 25, 0.92) !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 51, 102, 0.7);
+  background: rgba(45, 10, 25, 0.95) !important;
   border-color: #ff3366 !important;
   color: #fff !important;
+  transition: left 0.18s cubic-bezier(0.2, 0.9, 0.3, 1.2), top 0.18s cubic-bezier(0.2, 0.9, 0.3, 1.2), transform 0.15s ease;
 }
 
 @keyframes dodgeWiggle {

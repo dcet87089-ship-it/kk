@@ -441,6 +441,7 @@ const STAGES = [
 let noClickCount = 0;
 let yesScale = 1;
 let heartsCanvas = null;
+let lastNoInteractionTime = 0;
 
 // --- Initialize App ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -457,10 +458,45 @@ function setupEvents() {
 
   // YES Button Click
   yesBtn.addEventListener('click', handleYesClick);
+  yesBtn.addEventListener('touchend', (e) => {
+    // Only accept genuine touch on YES button
+    if (Date.now() - lastNoInteractionTime >= 700) {
+      e.preventDefault();
+      handleYesClick();
+    }
+  });
 
-  // NO Button Dodging: Support touchstart, pointerdown, click, mouseover
-  noBtn.addEventListener('pointerdown', handleNoInteraction);
-  noBtn.addEventListener('click', handleNoInteraction);
+  // NO Button Dodging: Trigger immediately on touchstart or pointerdown
+  noBtn.addEventListener('touchstart', (e) => {
+    e.preventDefault(); // Prevents synthetic ghost click on underlying element!
+    e.stopPropagation();
+    handleNoInteraction(e);
+  }, { passive: false });
+
+  noBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    handleNoInteraction(e);
+  });
+
+  noBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    handleNoInteraction(e);
+  });
+
+  // Touch proximity evasion: On mobile, dodge if finger comes within 50px of NO button!
+  document.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0] && noBtn.classList.contains('dodging')) {
+      const tx = e.touches[0].clientX;
+      const ty = e.touches[0].clientY;
+      const rect = noBtn.getBoundingClientRect();
+      const dist = Math.hypot(tx - (rect.left + rect.width / 2), ty - (rect.top + rect.height / 2));
+      if (dist < 55) {
+        handleNoInteraction(e);
+      }
+    }
+  }, { passive: true });
 
   // Screen tap heart burst
   document.addEventListener('pointerdown', (e) => {
@@ -491,18 +527,15 @@ function spawnTapHeart(x, y) {
   setTimeout(() => heart.remove(), 900);
 }
 
-// --- NO BUTTON DODGING LOGIC (NEVER DISAPPEARS, 30 STAGES) ---
+// --- NO BUTTON DODGING LOGIC ---
 function handleNoInteraction(e) {
   if (e) {
-    e.preventDefault();
+    if (e.cancelable) e.preventDefault();
     e.stopPropagation();
   }
 
-  // If reached stage 29 (final round), tapping it accepts reconciliation!
-  if (noClickCount >= STAGES.length - 1) {
-    handleYesClick();
-    return;
-  }
+  // Mark timestamp to completely reject any ghost clicks on YES button
+  lastNoInteractionTime = Date.now();
 
   audio.playDodge();
 
@@ -552,38 +585,55 @@ function handleNoInteraction(e) {
     charImg.style.transform = 'scale(1) rotate(0deg)';
   }, 250);
 
-  // YES BUTTON: GROWS LARGER AND LARGER IN THE CENTER!
-  yesScale += 0.08;
-  const yesBtn = document.getElementById('yes-btn');
-  yesBtn.style.transform = `scale(${Math.min(yesScale, 2.2)})`;
+  // YES BUTTON: Delay scale growth slightly so it doesn't expand into finger touch coordinate!
+  setTimeout(() => {
+    yesScale += 0.04;
+    const yesBtn = document.getElementById('yes-btn');
+    if (yesBtn) {
+      yesBtn.style.transform = `scale(${Math.min(yesScale, 1.7)})`;
+    }
+  }, 350);
 
-  // NO BUTTON: GUARANTEE TO STAY DIRECTLY ON DOCUMENT.BODY AND STAY FULLY ON-SCREEN
+  // NO BUTTON: Move to document.body and fly to safe positions away from YES button
   const noBtn = document.getElementById('no-btn');
+  const yesBtn = document.getElementById('yes-btn');
   
-  // Detach to document.body so backdrop-filter does NOT break viewport coordinates!
   if (noBtn.parentElement !== document.body) {
     document.body.appendChild(noBtn);
   }
   noBtn.classList.add('dodging');
 
-  // Measure actual button dimensions
   const rect = noBtn.getBoundingClientRect();
-  const btnWidth = rect.width || 130;
-  const btnHeight = rect.height || 44;
+  const btnWidth = rect.width || 120;
+  const btnHeight = rect.height || 42;
 
   const vw = window.innerWidth;
   const vh = window.innerHeight;
 
-  // Safe screen bounds:
-  // X: 15px from left, 15px from right
-  // Y: 60px from top (below top bar), 50px from bottom
+  // Safe screen bounds: 15px from left/right, 65px from top (below header), 50px from bottom
   const minX = 15;
   const maxX = Math.max(minX + 10, vw - btnWidth - 15);
   const minY = 65;
-  const maxY = Math.max(minY + 10, vh - btnHeight - 55);
+  const maxY = Math.max(minY + 10, vh - btnHeight - 50);
 
-  const randomX = Math.floor(Math.random() * (maxX - minX)) + minX;
-  const randomY = Math.floor(Math.random() * (maxY - minY)) + minY;
+  // Avoid center zone where YES button is!
+  const yesRect = yesBtn.getBoundingClientRect();
+
+  let randomX = minX;
+  let randomY = minY;
+  let attempts = 0;
+
+  do {
+    randomX = Math.floor(Math.random() * (maxX - minX)) + minX;
+    randomY = Math.floor(Math.random() * (maxY - minY)) + minY;
+    attempts++;
+  } while (
+    attempts < 20 &&
+    randomX + btnWidth > yesRect.left - 20 &&
+    randomX < yesRect.right + 20 &&
+    randomY + btnHeight > yesRect.top - 20 &&
+    randomY < yesRect.bottom + 20
+  );
 
   noBtn.style.left = `${randomX}px`;
   noBtn.style.top = `${randomY}px`;
@@ -595,7 +645,13 @@ function handleNoInteraction(e) {
 }
 
 // --- YES BUTTON CELEBRATION ---
-function handleYesClick() {
+function handleYesClick(e) {
+  // CRITICAL: Prevent ghost click from mobile touch on NO button!
+  if (Date.now() - lastNoInteractionTime < 700) {
+    console.log('Blocked mobile ghost click on YES button');
+    return;
+  }
+
   audio.playVictory();
 
   if (navigator.vibrate) {
