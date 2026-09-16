@@ -22,8 +22,8 @@ class SweetAudio {
     const gain = this.ctx.createGain();
     osc.type = 'sine';
     const now = this.ctx.currentTime;
-    osc.frequency.setValueAtTime(280, now);
-    osc.frequency.exponentialRampToValueAtTime(700, now + 0.1);
+    osc.frequency.setValueAtTime(260, now);
+    osc.frequency.exponentialRampToValueAtTime(750, now + 0.1);
     gain.gain.setValueAtTime(0.2, now);
     gain.gain.linearRampToValueAtTime(0.01, now + 0.1);
     osc.connect(gain);
@@ -36,7 +36,7 @@ class SweetAudio {
     if (!this.enabled) return;
     this.init();
     const now = this.ctx.currentTime;
-    const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50];
+    const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50, 1318.51];
     notes.forEach((freq, idx) => {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
@@ -44,11 +44,11 @@ class SweetAudio {
       osc.frequency.value = freq;
       const startT = now + idx * 0.08;
       gain.gain.setValueAtTime(0.25, startT);
-      gain.gain.exponentialRampToValueAtTime(0.001, startT + 0.9);
+      gain.gain.exponentialRampToValueAtTime(0.001, startT + 1.0);
       osc.connect(gain);
       gain.connect(this.ctx.destination);
       osc.start(startT);
-      osc.stop(startT + 0.95);
+      osc.stop(startT + 1.05);
     });
   }
 
@@ -59,8 +59,8 @@ class SweetAudio {
     const gain = this.ctx.createGain();
     osc.type = 'sine';
     const now = this.ctx.currentTime;
-    osc.frequency.setValueAtTime(420, now);
-    osc.frequency.exponentialRampToValueAtTime(850, now + 0.08);
+    osc.frequency.setValueAtTime(440, now);
+    osc.frequency.exponentialRampToValueAtTime(880, now + 0.08);
     gain.gain.setValueAtTime(0.2, now);
     gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
     osc.connect(gain);
@@ -183,61 +183,258 @@ class FloatingHeartsCanvas {
   }
 }
 
-// --- Pleading Stages & Bribes ---
+// --- GIF POOL ---
+const GIFS = [
+  'https://media.tenor.com/vHqB105x1L4AAAAM/mocha-crying.gif',
+  'https://media.tenor.com/X4sW3N34oYwAAAAM/bubu-dudu-crying.gif',
+  'https://media.tenor.com/7bQy6mF3w1sAAAAM/milk-and-mocha-hug.gif',
+  'https://media.tenor.com/m44qg5B3j7cAAAAM/peach-goma-love.gif',
+  'https://media.tenor.com/vHqB105x1L4AAAAM/mocha-crying.gif',
+  'https://media.tenor.com/X4sW3N34oYwAAAAM/bubu-dudu-crying.gif',
+  'https://media.tenor.com/6UeK3CskjKMAAAAM/bubu-dudu-kiss.gif'
+];
+
+// --- 30 PLEADING STAGES & BRIBES ---
 const STAGES = [
   {
-    img: 'https://media.tenor.com/vHqB105x1L4AAAAM/mocha-crying.gif',
     title: 'Do you love me?',
     subtitle: 'หายงอนเค้านะ... คืนดีกันนะคนดี 🥺💖',
     note: 'เค้าสัญญาว่าจะเป็นเด็กดี ไม่ดื้อไม่ซนแล้วค้าบ 🙇‍♂️',
     bribe: null,
     noText: 'ไม่คืนดี 😤',
-    hint: '👇 กดปุ่มสีชมพูตรงกลางเพื่อคืนดี หรือลองกดปุ่มปฏิเสธดูสิ 😜'
+    hint: '👇 แตะปุ่มสีชมพูตรงกลางเพื่อคืนดี หรือลองกดปุ่มปฏิเสธดูสิ 😜'
   },
   {
-    img: 'https://media.tenor.com/X4sW3N34oYwAAAAM/bubu-dudu-crying.gif',
     title: 'Are you sure? 🥺',
     subtitle: 'คิดดูดีๆ อีกทีน้าาา ตัวเองงง... 😭',
     note: 'เค้าสำนึกผิดแล้วจริงๆ น้าาา อย่าเพิ่งใจร้ายเลย 💔',
-    bribe: '🎁 ข้อเสนอ: เลี้ยงชานมไข่มุก 1 สัปดาห์! 🧋',
+    bribe: '🎁 ข้อเสนอ: ชานมไข่มุก 1 แก้ว 🧋',
     noText: 'คิดดูก่อน 🤔',
     hint: 'อุ๊ย! ปุ่มมันแอบวิ่งหนีแน่ะ 🏃‍♂️💨'
   },
   {
-    img: 'https://media.tenor.com/7bQy6mF3w1sAAAAM/milk-and-mocha-hug.gif',
     title: 'ใจร้ายจังงง 💔',
     subtitle: 'เค้าขอโทษษษ จะไม่ทำอีกแล้วค้าบบบ 🙇‍♂️',
-    note: 'แถมหมูกระทะชุดใหญ่ไฟกะพริบ! ปิ้งให้แกะกุ้งให้ทุกคำ 🥩🦐',
-    bribe: '🎁 ข้อเสนอ: ชานม 🧋 + หมูกระทะชุดใหญ่ 🥩',
-    noText: 'ติดสินบนเหรอ 🧋',
-    hint: 'มีหมูกระทะมาง้อแล้วนะเธอ ยอมหน่อยเร้ววว'
+    note: 'ชานมไข่มุกหวาน 100% เพิ่มไข่มุก 2 เท่าเลยยย 🧋✨',
+    bribe: '🎁 ข้อเสนอ: ชานมไข่มุก 1 สัปดาห์เต็ม! 🧋',
+    noText: 'ยังไม่พอ 😒',
+    hint: 'มีชานมมาง้อแล้วนะเธอ ยอมหน่อยเร้ววว'
   },
   {
-    img: 'https://media.tenor.com/X4sW3N34oYwAAAAM/bubu-dudu-crying.gif',
+    title: 'แถมหมูกระทะด้วย! 🥩',
+    subtitle: 'หมูกระทะชุดใหญ่ไฟกะพริบ + น้ำจิ้มรสเด็ด!',
+    note: 'ปิ้งให้ แกะกุ้งให้ ตักน้ำจิ้มให้ทุกคำเลยยย 🦐🥓',
+    bribe: '🎁 ข้อเสนอ: ชานม 🧋 + หมูกระทะชุดใหญ่ 🥩',
+    noText: 'ติดสินบนเหรอ 🧋',
+    hint: 'แกะกุ้งให้ด้วยนะเธอ ยอมเถอะนะะะ'
+  },
+  {
+    title: 'แกะปูให้ด้วยเอ้า! 🦀',
+    subtitle: 'แกะกุ้ง แกะปู แกะหอย บริการระดับ 5 ดาว 🦀✨',
+    note: 'ไม่ต้องจับช้อนเลย เค้าจะป้อนถึงปากทุกคำ! 🥄',
+    bribe: '🎁 ข้อเสนอ: บริการแกะอาหารและป้อนถึงปาก 🦀🥄',
+    noText: 'ไม่อะ 🙅‍♀️',
+    hint: 'จะป้อนถึงปากเลยนะ! ยังใจแข็งอีก!'
+  },
+  {
     title: 'ยอมให้คุมเงินเลย! 💸',
     subtitle: 'เงินเดือนทั้งหมดโอนเข้าบัญชีเธอหมดเลย!',
     note: 'กระเป๋าตังค์เค้าก็คือกระเป๋าตังค์เธอ คืนดีเถอะนะ 🥺',
-    bribe: '🎁 ข้อเสนอ: ชานม + หมูกระทะ + ยอมให้คุมเงิน 💸',
-    noText: 'ยังไม่พอ 😒',
+    bribe: '🎁 ข้อเสนอ: ยึดสมุดบัญชี & เงินเดือนทั้งหมด 💸',
+    noText: 'จริงเหรอออ 😏',
     hint: 'ให้คุมเงินแล้วนะ! ยังไม่ยอมอีกเหรออออ'
   },
   {
-    img: 'https://media.tenor.com/m44qg5B3j7cAAAAM/peach-goma-love.gif',
-    title: 'ยอมเป็นทาสรับใช้! 💆‍♀️',
-    subtitle: 'นวดไหล่ ซักผ้า ล้างจาน กวาดบ้าน 1 เดือนเต็ม!',
-    note: 'จะรับใช้ดูแลเธออย่างดีเหมือนเจ้าหญิงเลยยย 👑',
-    bribe: '🎁 ข้อเสนอ: บริการนวด & งานบ้านฟรี 1 เดือน 💆‍♀️🧹',
-    noText: 'ปุ่มนี้เริ่มเหนื่อยแล้ว 😢',
-    hint: 'ดูปุ่มตรงกลางสิ มันโตขึ้นมาพร้อมกอดเธอแล้วนะ!'
+    title: 'ยึดบัตรเครดิตด้วย! 💳',
+    subtitle: 'รูดได้ไม่อั้น ไม่ถาม ไม่บ่นสักคำเดียว!',
+    note: 'อยากได้อะไรชี้เลย รูดปรื๊ดๆ สบายใจเฉิบ 💳✨',
+    bribe: '🎁 ข้อเสนอ: บัตรเครดิตรูดได้ไม่อั้น 💳',
+    noText: 'ยังโกรธอยู่ 😤',
+    hint: 'ให้บัตรเครดิตแล้วยังจะโกรธอีกเหรอค้าบ!'
   },
   {
-    img: 'https://media.tenor.com/vHqB105x1L4AAAAM/mocha-crying.gif',
-    title: 'อย่าใจร้ายกับเค้าเลย 😭😭',
-    subtitle: 'ฮือออออ น้ำตาท่วมหน้าจอหมดแล้วนะคนดี...',
-    note: 'ปุ่มนี้จะไม่ยอมให้กดแล้ว! กดปุ่มตรงกลางเถอะนะะะ 🙏',
-    bribe: '🎁 ข้อเสนอ: มอบหัวใจทั้งดวงให้เธอคนเดียวตลอดชีพ 💖',
-    noText: 'ยอมก็ได้ 😳',
-    hint: 'กดปุ่มสีชมพูตรงกลางเลยยย เร็วเข้า! 💕'
+    title: 'ยอมเป็นทาสรับใช้! 💆‍♀️',
+    subtitle: 'นวดไหล่ นวดหลัง นวดขา 1 เดือนเต็ม!',
+    note: 'จะบีบนวดดูแลเธออย่างดีเหมือนเจ้าหญิงเลยยย 👑',
+    bribe: '🎁 ข้อเสนอ: บริการนวดสปาฟรี 1 เดือน 💆‍♀️',
+    noText: 'เมื่อยมือแย่ 😜',
+    hint: 'นวดให้ทุกวันหลังเลิกงานเลยนะเธอ'
+  },
+  {
+    title: 'ทำงานบ้านทุกอย่าง! 🧹',
+    subtitle: 'ซักผ้า ตากผ้า ถูบ้าน ล้างห้องน้ำ ล้างจาน!',
+    note: 'เธอแค่นอนดูซีรีส์เฉยๆ เดี๋ยวเค้าจัดการให้หมด! 📺🍿',
+    bribe: '🎁 ข้อเสนอ: ทำงานบ้านแทนทุกอย่าง 1 เดือน 🧹',
+    noText: 'ทำทุกวันนะ 🧐',
+    hint: 'ไม่ต้องทำงานบ้านเลยนะ สบายขนาดนี้แล้ว!'
+  },
+  {
+    title: 'จะไม่เถียงสักคำ! 🤐',
+    subtitle: 'จะพูดแค่ "ครับที่รัก" "ถูกต้องที่สุดครับ"',
+    note: 'เธอถูกเสมอ 100% ในทุกมิติของจักรวาล 🪐✨',
+    bribe: '🎁 ข้อเสนอ: พูดแค่ "ครับที่รัก" ตลอดกาล 🤐',
+    noText: 'จะคอยดู 😒',
+    hint: 'เธอเป็นหัวหน้าบ้านเลยเอ้า คืนดีเร้ววว'
+  },
+  {
+    title: 'ยอมให้ตีก้น 10 ที! 🍑',
+    subtitle: 'ตีให้ดัง ป้าบๆๆๆ หายโกรธได้เลยยย!',
+    note: 'ยอมเจ็บตูดเพื่อแลกกับรอยยิ้มเธอคนเดียวเลย 🍑👋',
+    bribe: '🎁 ข้อเสนอ: สิทธิ์ตีก้น 10 ทีเน้นๆ 🍑',
+    noText: 'เจ็บนะเตือนไว้ 😈',
+    hint: 'ตีตูดให้หายแค้นเลยเอ้า ยอมทุกอย่างแย้ว'
+  },
+  {
+    title: 'บุฟเฟต์แซลมอนไม่อั้น! 🍣',
+    subtitle: 'แซลมอน ทูน่า ซาชิมิ กุ้งดองซีอิ๊วเกาหลี 🍣✨',
+    note: 'กินจนพุงกาง เดี๋ยวเค้าจ่ายบิลเองคนเดียว!',
+    bribe: '🎁 ข้อเสนอ: บุฟเฟต์อาหารญี่ปุ่นพรีเมียม 🍣',
+    noText: 'แพงนะไหวเหรอ 🍣',
+    hint: 'แซลมอนเนื้อฉ่ำๆ รออยู่น้าาา คืนดีเถอะะะ'
+  },
+  {
+    title: 'ยอมให้เช็กมือถือ 24 ชม.! 📱',
+    subtitle: 'สแกนหน้าเธอ ปลดล็อกรหัสผ่านทุกแอป!',
+    note: 'บริสุทธิ์ใจ 100% ไม่มีใครนอกจากเธอแน่นอน 📱🔒',
+    bribe: '🎁 ข้อเสนอ: ปลดล็อกมือถือให้เช็ก 24 ชม. 📱',
+    noText: 'มีอะไรซ่อนปะ 📱',
+    hint: 'เช็กได้ทุกแชทเลย ไม่มีอะไรปิดบังแน่นอน!'
+  },
+  {
+    title: 'พาไปเที่ยวทะเล! 🏖️',
+    subtitle: 'นอนโรงแรมหรูริมหาด ฟังเสียงคลื่นรับลม 🌊',
+    note: 'เป็นตากล้องส่วนตัว ถ่ายให้ 1,000 รูปจนกว่าจะชอบ! 📸',
+    bribe: '🎁 ข้อเสนอ: ทริปทะเล + ตากล้องส่วนตัว 📸',
+    noText: 'ถ่ายไม่สวยโดนแน่ 📸',
+    hint: 'ถ่ายมุมไหนก็สวยเพราะเธอสวยที่สุดอยู่แล้ว!'
+  },
+  {
+    title: 'พาไปช้อปปิ้งไม่อั้น! 👜',
+    subtitle: 'กระเป๋า เสื้อผ้า รองเท้า เครื่องสำอาง 🛍️',
+    note: 'เธอเลือกใส่ตะกร้า เดี๋ยวเค้าเป็นคนถือถุงให้หมด! 🛒',
+    bribe: '🎁 ข้อเสนอ: ช้อปปิ้งฟรี 1 วันเต็ม 👜🛍️',
+    noText: 'พูดแล้วห้ามคืนคำ 🛍️',
+    hint: 'เดินถือถุงตามหลังให้เป็นบอดี้การ์ดเลยยย'
+  },
+  {
+    title: 'ปุ่มนี้เริ่มเหนื่อยหอบแล้วนะ! 🏃‍♂️',
+    subtitle: 'วิ่งหนีจนหอบแฮ่กๆ รองเท้าจะพังแล้ววว 👟',
+    note: 'เหนื่อยแล้วนะะะ กดปุ่มตรงกลางเถอะ ขอร้องงง 🙏',
+    bribe: '🎁 ข้อเสนอ: ปุ่มวิ่งหนีจนเหนื่อยหอบ 🏃‍♂️💨',
+    noText: 'วิ่งต่อไปสิ 🏃‍♀️',
+    hint: 'สงสารปุ่มมันหน่อย มันวิ่งจนขาขวิดแย้ว!'
+  },
+  {
+    title: 'เหงื่อซ่กไปหมดแย้ววว! 💦',
+    subtitle: 'วิ่งรอบจอมาหลายกิโลแล้วนะตัวเองงง 😭',
+    note: 'หัวใจเต้นเหนื่อย แต่รักเธอไม่เคยเหนื่อยเลยนะ 💕',
+    bribe: '🎁 ข้อเสนอ: หัวใจที่รักเธอไม่เคยเหนื่อย 💕',
+    noText: 'เหนื่อยก็ยอมสิ 😜',
+    hint: 'ดูสิ เค้าตั้งใจง้อขนาดนี้แล้วน้าาา'
+  },
+  {
+    title: 'ดูหน้าเค้าสิ ตาบวมหมดแล้ว! 🐼',
+    subtitle: 'ร้องไห้จนตาบวมเป็นหมีแพนด้าแล้ววว 😭',
+    note: 'น้ำตาท่วมห้องจนต้องพายเรือแล้วนะคนดี 🛶',
+    bribe: '🎁 ข้อเสนอ: ตาบวมจนน่าสงสาร 🐼',
+    noText: 'สงสารนิดนึง 🥺',
+    hint: 'เห็นมั้ยว่าเค้าเสียใจจริงๆ ยิ้มให้หน่อยเร้ววว'
+  },
+  {
+    title: 'ยังจะตามมากดอีกเหรอออ! 👆',
+    subtitle: 'นิ้วมือเธอไม่เมื่อยบ้างเหรอคะะะ 😂',
+    note: 'จิ้มเก่งขนาดนี้ เอาไปจิ้มปุ่มตรงกลางดีกว่าน้าาา 💖',
+    bribe: '🎁 ข้อเสนอ: ยอมให้นวดนิ้วให้ 1 ชั่วโมง 👆',
+    noText: 'ยังไม่เมื่อยยย 😈',
+    hint: 'กดปุ่มสีชมพูตรงกลางทีเดียว จบแฮปปี้เลยนะ!'
+  },
+  {
+    title: 'จอโทรศัพท์จะเป็นรอยแล้วนะ! 📱💥',
+    subtitle: 'ฟิล์มกระจกจะทะลุแล้วนะตัวเองงง 😱',
+    note: 'เดี๋ยวเค้าซื้อฟิล์มใหม่ติดให้ด้วยเอ้า! คืนดีเถอะ 🥺',
+    bribe: '🎁 ข้อเสนอ: ฟิล์มกระจกใหม่อีก 1 แผ่น 📱',
+    noText: 'ไม่สนนน 💥',
+    hint: 'อย่าทำร้ายหน้าจอโทรศัพท์เลยนะะะ'
+  },
+  {
+    title: 'เค้าสำนึกผิดแล้วจริงๆ นะ! 🙇‍♂️',
+    subtitle: 'สาบานต่อหน้าดาวทุกดวงบนฟ้าเลยยย ⭐✨',
+    note: 'จะไม่ทำตัวน่าตีแบบนี้อีกแล้ว สัญญาจากใจจริง 💖',
+    bribe: '🎁 ข้อเสนอ: คำสัญญาของลูกผู้ชาย 🙇‍♂️✨',
+    noText: 'สาบานวัดไหน ⛩️',
+    hint: 'สาบานต่อหน้าเธอคนเดียวเลยครับผม!'
+  },
+  {
+    title: 'กราบแนบอกงามๆ 3 ที! 🙏',
+    subtitle: 'กราบ 1... กราบ 2... กราบ 3... แนบอกเลยยย 🙇‍♂️',
+    note: 'อ้อนขนาดนี้ มีแฟนใครยอมง้อเท่านี้อีกมั้ยยย 🥺',
+    bribe: '🎁 ข้อเสนอ: กราบแนบอกงามๆ 3 จบ 🙏',
+    noText: 'เกือบใจอ่อนละ 🤏',
+    hint: 'ใจอ่อนอีกนิดนึงน้าาา คนดีของเค้า'
+  },
+  {
+    title: 'ยอมโกนหัวบวชให้เลยเอ้า! 🦲',
+    subtitle: 'อุทิศผลบุญให้เธอหายงอนเลยยย สาธุ! 🙏🦲',
+    note: 'บวชไม่สึกจนกว่าเธอจะยิ้มเลยเอ้า 55555 😂',
+    bribe: '🎁 ข้อเสนอ: บุญบวชชดเชยความผิด 🦲✨',
+    noText: 'เว่อร์ไปมั้ยยย 😂',
+    hint: 'หัวเราะแล้วใช่มั้ยล่าาา ยิ้มแล้วคืนดีน้าาา'
+  },
+  {
+    title: 'จะไม่มองใครอีกเลยในโลก! 🙈',
+    subtitle: 'มีตาไว้มองแค่ความสวยของเธอคนเดียว! 👀💖',
+    note: 'ในสายตาเค้า ไม่มีใครน่ารักเท่าเธออีกแล้วในจักรวาล ✨',
+    bribe: '🎁 ข้อเสนอ: มองแค่เธอคนเดียวตลอดชีพ 🙈',
+    noText: 'ถ้าแอบมองโดนแน่ 🔪',
+    hint: 'ไม่แอบมองแน่นอน มีแฟนสวยขนาดนี้จะมองใครอีก!'
+  },
+  {
+    title: 'ปุ่มนี้ร้องขอชีวิตแล้วนะะะ 😭',
+    subtitle: 'ปุ่มปฏิเสธแทบจะก้มกราบเธอแล้วนะะะ 🙏',
+    note: 'กดปุ่มตรงกลางทีเถอะะะ สงสารพวกเค้าหน่อยยย 💖',
+    bribe: '🎁 ข้อเสนอ: ปุ่มขอยกธงขาวยอมแพ้ 🏳️',
+    noText: 'อีกนิดนึงน่าาา 😋',
+    hint: 'ดูปุ่มตรงกลางสิ มันใหญ่จนจะเต็มจอแล้วนะ!'
+  },
+  {
+    title: 'ดูปุ่มตรงกลางสิ! 💖',
+    subtitle: 'มันใหญ่คับจอจนจะระเบิดแล้วนะตัวเองงง!',
+    note: 'กดยังไงก็โดนปุ่มตรงกลางแล้วนะ ไม่เชื่อลองกดดูสิ! 🥰',
+    bribe: '🎁 ข้อเสนอ: ปุ่มคืนดีไซส์ยักษ์แห่งความรัก 💖',
+    noText: 'จิ้มไม่โดนหรอก 😜',
+    hint: 'จิ้มปุ่มตรงกลางเลยจ้าาา รอมอบกอดอยู่นะ'
+  },
+  {
+    title: 'รักเธอที่สุดในสามโลกเลยยย 🌌',
+    subtitle: 'รักมากกว่าเมื่อวาน และน้อยกว่าวันพรุ่งนี้เสมอ 💕',
+    note: 'ไม่มีใครมาแทนที่เธอได้หรอกนะคนเก่ง 🧸✨',
+    bribe: '🎁 ข้อเสนอ: ความรักที่ไม่มีวันหมดอายุ 🌌💖',
+    noText: 'รักแค่ไหนกันเชียว 💖',
+    hint: 'รักเท่าฟ้า เท่าทะเล เท่าจักรวาลเลยครับ!'
+  },
+  {
+    title: 'ไม่มีใครยอมเธอเท่าเค้าแล้วนะ 💕',
+    subtitle: 'ยอมเป็นทุกอย่างให้เธอแล้วจริงๆ นะคะ 🥺',
+    note: 'ยอมเป็นแฟน เป็นเพื่อน เป็นคนรับใช้ เป็นทุกอย่างให้เธอแล้ว!',
+    bribe: '🎁 ข้อเสนอ: ยอมเป็นทุกอย่างให้เธอคนเดียว 💕',
+    noText: 'จริงเหยอออ 🥺',
+    hint: 'จริงที่สุดในโลกเลยค้าบบบ'
+  },
+  {
+    title: 'จะกอดขาไว้แบบนี้ตลอดไป! 🧸',
+    subtitle: 'ไม่ยอมให้ไปไหนหรอก อยู่ด้วยกันไปจนแก่เฒ่าเลยยย 👵👴',
+    note: 'เกาะขาแน่นมาก แกะไม่ออกแล้วน้าาา จุ๊บๆ 😘',
+    bribe: '🎁 ข้อเสนอ: กอดแน่นๆ ไม่ปล่อยตลอดกาล 🧸',
+    noText: 'ยอมก็ได้... มั้ง 😳',
+    hint: 'อีกนิดเดียว ยอมกดปุ่มตรงกลางเลยยย!'
+  },
+  {
+    title: 'ยอมจำนนทุกข้อหาแล้วจ้าาา! 🥰',
+    subtitle: 'ยอมแพ้ความน่ารักของเธอแล้วคนดี 💖',
+    note: 'กดปุ่มสีชมพูตรงกลางเพื่อรับความรักคืนดีเลยยยย 🎉',
+    bribe: '🎁 ข้อเสนอ: คืนดีกันนะ สัญญาจะเป็นแฟนที่ดีที่สุด! 💖',
+    noText: 'ยอมคืนดีแล้วจ้าาา 💕',
+    hint: '🎉 กดตรงไหนก็คืนดีแล้วจ้าาา เย้้้้้!'
   }
 ];
 
@@ -261,37 +458,30 @@ function setupEvents() {
   // YES Button Click
   yesBtn.addEventListener('click', handleYesClick);
 
-  // NO Button Runaway on Hover & Touch
-  noBtn.addEventListener('mouseover', handleNoInteraction);
-  noBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    handleNoInteraction(e);
-  });
-  noBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    handleNoInteraction(e);
-  });
+  // NO Button Dodging: Support touchstart, pointerdown, click, mouseover
+  noBtn.addEventListener('pointerdown', handleNoInteraction);
+  noBtn.addEventListener('click', handleNoInteraction);
 
-  // Tap ripple effect anywhere on screen
+  // Screen tap heart burst
   document.addEventListener('pointerdown', (e) => {
     spawnTapHeart(e.clientX, e.clientY);
   });
 
-  // Replay Button
+  // Replay
   hugAgainBtn.addEventListener('click', resetApp);
 
   // Sound Toggle
-  soundBtn.addEventListener('click', () => {
+  soundBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
     audio.enabled = !audio.enabled;
     soundIcon.innerText = audio.enabled ? '🔊' : '🔇';
     if (audio.enabled) audio.playPop();
   });
 }
 
-// Floating tap heart FX
 function spawnTapHeart(x, y) {
   if (!x || !y) return;
-  const emojis = ['💖', '💕', '✨', '🥺', '🌸'];
+  const emojis = ['💖', '💕', '✨', '🥺', '🌸', '🧸'];
   const heart = document.createElement('div');
   heart.className = 'tap-heart-burst';
   heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
@@ -301,11 +491,22 @@ function spawnTapHeart(x, y) {
   setTimeout(() => heart.remove(), 900);
 }
 
-// --- NO BUTTON DODGING LOGIC ---
+// --- NO BUTTON DODGING LOGIC (NEVER DISAPPEARS, 30 STAGES) ---
 function handleNoInteraction(e) {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  // If reached stage 29 (final round), tapping it accepts reconciliation!
+  if (noClickCount >= STAGES.length - 1) {
+    handleYesClick();
+    return;
+  }
+
   audio.playDodge();
 
-  // Haptic feedback vibration on mobile if supported
+  // Mobile haptic vibration
   if (navigator.vibrate) {
     navigator.vibrate(40);
   }
@@ -314,8 +515,11 @@ function handleNoInteraction(e) {
   const stageIndex = Math.min(noClickCount, STAGES.length - 1);
   const stage = STAGES[stageIndex];
 
-  // Update Texts & Image
+  // Cycle GIFs
   const charImg = document.getElementById('character-img');
+  charImg.src = GIFS[noClickCount % GIFS.length];
+
+  // Update texts
   const mainTitle = document.getElementById('main-title');
   const mainSubtitle = document.getElementById('main-subtitle');
   const pleadNote = document.getElementById('plead-note');
@@ -326,7 +530,6 @@ function handleNoInteraction(e) {
   const bribePerks = document.getElementById('bribe-perks');
   const perkTag = document.getElementById('perk-tag');
 
-  charImg.src = stage.img;
   mainTitle.innerText = stage.title;
   mainSubtitle.innerText = stage.subtitle;
   pleadNote.innerText = stage.note;
@@ -344,52 +547,59 @@ function handleNoInteraction(e) {
   }
 
   // Wiggle character image
-  charImg.style.transform = 'scale(1.15) rotate(' + (noClickCount % 2 === 0 ? 10 : -10) + 'deg)';
+  charImg.style.transform = 'scale(1.15) rotate(' + (noClickCount % 2 === 0 ? 12 : -12) + 'deg)';
   setTimeout(() => {
     charImg.style.transform = 'scale(1) rotate(0deg)';
   }, 250);
 
-  // YES BUTTON: GROWS LARGER IN THE CENTER!
-  yesScale += 0.24;
+  // YES BUTTON: GROWS LARGER AND LARGER IN THE CENTER!
+  yesScale += 0.08;
   const yesBtn = document.getElementById('yes-btn');
-  yesBtn.style.transform = `scale(${yesScale})`;
+  yesBtn.style.transform = `scale(${Math.min(yesScale, 2.2)})`;
 
-  // NO BUTTON: FLIES AROUND SCREEN TO SAFE POSITIONS
+  // NO BUTTON: GUARANTEE TO STAY DIRECTLY ON DOCUMENT.BODY AND STAY FULLY ON-SCREEN
   const noBtn = document.getElementById('no-btn');
+  
+  // Detach to document.body so backdrop-filter does NOT break viewport coordinates!
+  if (noBtn.parentElement !== document.body) {
+    document.body.appendChild(noBtn);
+  }
   noBtn.classList.add('dodging');
 
-  const btnWidth = noBtn.offsetWidth || 130;
-  const btnHeight = noBtn.offsetHeight || 45;
+  // Measure actual button dimensions
+  const rect = noBtn.getBoundingClientRect();
+  const btnWidth = rect.width || 130;
+  const btnHeight = rect.height || 44;
 
-  // Safe boundary margins on mobile & desktop (avoiding top bar and edges)
-  const paddingX = 24;
-  const paddingTop = 80;
-  const paddingBottom = 40;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
 
-  const maxX = window.innerWidth - btnWidth - paddingX;
-  const maxY = window.innerHeight - btnHeight - paddingBottom;
+  // Safe screen bounds:
+  // X: 15px from left, 15px from right
+  // Y: 60px from top (below top bar), 50px from bottom
+  const minX = 15;
+  const maxX = Math.max(minX + 10, vw - btnWidth - 15);
+  const minY = 65;
+  const maxY = Math.max(minY + 10, vh - btnHeight - 55);
 
-  const randomX = Math.max(paddingX, Math.floor(Math.random() * (maxX - paddingX) + paddingX));
-  const randomY = Math.max(paddingTop, Math.floor(Math.random() * (maxY - paddingTop) + paddingTop));
+  const randomX = Math.floor(Math.random() * (maxX - minX)) + minX;
+  const randomY = Math.floor(Math.random() * (maxY - minY)) + minY;
 
   noBtn.style.left = `${randomX}px`;
   noBtn.style.top = `${randomY}px`;
 
-  // Spawn tap burst where the button was
-  if (e && (e.clientX || e.touches)) {
-    const touchX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : randomX);
-    const touchY = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : randomY);
-    spawnTapHeart(touchX, touchY);
-  }
+  // Tap ripple FX
+  const clickX = e && e.clientX ? e.clientX : randomX + btnWidth / 2;
+  const clickY = e && e.clientY ? e.clientY : randomY + btnHeight / 2;
+  spawnTapHeart(clickX, clickY);
 }
 
 // --- YES BUTTON CELEBRATION ---
 function handleYesClick() {
   audio.playVictory();
 
-  // Haptic heartbeat vibration
   if (navigator.vibrate) {
-    navigator.vibrate([100, 50, 100, 50, 200]);
+    navigator.vibrate([100, 50, 100, 50, 250]);
   }
 
   const questionCard = document.getElementById('question-card');
@@ -400,7 +610,7 @@ function handleYesClick() {
   noBtn.style.display = 'none';
   celebrationCard.style.display = 'flex';
 
-  // Heart Confetti Explosion
+  // Confetti Explosion
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
   heartsCanvas.explodeHeartConfetti(centerX, centerY);
@@ -432,7 +642,7 @@ function resetApp() {
   const questionCard = document.getElementById('question-card');
   const celebrationCard = document.getElementById('celebration-card');
 
-  charImg.src = stage.img;
+  charImg.src = GIFS[0];
   mainTitle.innerText = stage.title;
   mainSubtitle.innerText = stage.subtitle;
   pleadNote.innerText = stage.note;
@@ -442,6 +652,12 @@ function resetApp() {
   bribePerks.style.display = 'none';
 
   yesBtn.style.transform = 'scale(1)';
+
+  // Re-attach noBtn back to buttons area inside question card
+  const buttonsArea = document.querySelector('.buttons-area');
+  if (buttonsArea && noBtn.parentElement !== buttonsArea) {
+    buttonsArea.appendChild(noBtn);
+  }
   noBtn.classList.remove('dodging');
   noBtn.style.left = '';
   noBtn.style.top = '';
