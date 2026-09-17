@@ -2,34 +2,204 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Project - Ready</title>
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-family: system-ui, -apple-system, sans-serif;
-      background: #0f172a;
-      color: #f8fafc;
-      text-align: center;
-      padding: 20px;
-    }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 8px;
-    }
-    p {
-      color: #94a3b8;
-      font-size: 1.1rem;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Chatkawee (Sakai) | My Official Links</title>
+  
+  <!-- Open Graph Meta Tags for beautiful social sharing previews -->
+  <meta property="og:title" content="Chatkawee (Sakai) - Contact & Social Profiles">
+  <meta property="og:description" content="รวมช่องทางการติดต่อและโซเชียลมีเดียของ Chatkawee ทั้ง Instagram, Facebook, LINE, TikTok และ Email">
+  <meta property="og:image" content="profile.jpg">
+  <meta property="og:type" content="profile">
+  <meta name="theme-color" content="#0d1117">
+
+  <!-- Google Fonts: Prompt & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css?v=bio2">
 </head>
 <body>
-  <h1>🚀 พร้อมเริ่มโปรเจกต์ใหม่</h1>
-  <p>ระบบเชื่อมต่อกับ Git และพร้อมสำหรับการพัฒนาเรียบร้อยแล้ว</p>
+  <!-- Ambient background glow & canvas -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+  <div class="glow-orb orb-3"></div>
+
+  <main class="container">
+    
+    <!-- Profile Card Header -->
+    <header class="profile-header">
+      <div class="avatar-wrapper">
+        <div class="avatar-ring"></div>
+        <img src="profile.jpg" alt="Chatkawee Sakai Profile" class="avatar-img" id="profile-img">
+        <div class="online-indicator" title="Online"></div>
+      </div>
+
+      <div class="profile-info">
+        <div class="name-badge-row">
+          <h1 class="profile-name">Chatkawee</h1>
+          <span class="nickname">(Sakai)</span>
+          <span class="verified-badge" title="Verified Profile">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path d="M10.6 3.4a2 2 0 0 1 2.8 0l1.1 1.1a2 2 0 0 0 1.9.5l1.5-.3a2 2 0 0 1 2.4 1.4l.5 1.5a2 2 0 0 0 1.3 1.3l1.5.5a2 2 0 0 1 1.4 2.4l-.3 1.5a2 2 0 0 0 .5 1.9l1.1 1.1a2 2 0 0 1 0 2.8l-1.1 1.1a2 2 0 0 0-.5 1.9l.3 1.5a2 2 0 0 1-1.4 2.4l-1.5.5a2 2 0 0 0-1.3 1.3l-.5 1.5a2 2 0 0 1-2.4 1.4l-1.5-.3a2 2 0 0 0-1.9.5l-1.1 1.1a2 2 0 0 1-2.8 0l-1.1-1.1a2 2 0 0 0-1.9-.5l-1.5.3a2 2 0 0 1-2.4-1.4l-.5-1.5a2 2 0 0 0-1.3-1.3l-1.5-.5a2 2 0 0 1-1.4-2.4l.3-1.5a2 2 0 0 0-.5-1.9L3.4 13.4a2 2 0 0 1 0-2.8l1.1-1.1a2 2 0 0 0 .5-1.9l-.3-1.5a2 2 0 0 1 1.4-2.4l1.5-.5a2 2 0 0 0 1.3-1.3l.5-1.5a2 2 0 0 1 2.4-1.4l1.5.3a2 2 0 0 0 1.9-.5l1.1-1.1z"/>
+              <path fill="#ffffff" d="M10 15.5l-3.5-3.5 1.4-1.4 2.1 2.1 5.6-5.6 1.4 1.4z"/>
+            </svg>
+          </span>
+        </div>
+        <p class="profile-handle">@s.chatkawee</p>
+        <p class="profile-bio">ยินดีที่ได้รู้จักครับ! ติดต่อหรือติดตามผลงานได้ตามช่องทางด้านล่างนี้เลย 🚀</p>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="action-bar">
+        <button class="action-btn" id="share-btn" title="แชร์โปรไฟล์นี้">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+          </svg>
+          <span>แชร์โปรไฟล์</span>
+        </button>
+        <button class="action-btn" id="quick-copy-email-btn" title="คัดลอกอีเมล">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span>คัดลอกอีเมล</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Social Link Cards Section -->
+    <section class="links-section">
+      <div class="section-title-wrap">
+        <span class="section-badge">CONNECTED PLATFORMS</span>
+        <h2 class="section-title">ช่องทางติดตามและติดต่อ</h2>
+      </div>
+
+      <!-- 1. Instagram Card -->
+      <a href="https://www.instagram.com/s.chatkawee?stkn=NWplcXRudm9pMjB3" target="_blank" rel="noopener noreferrer" class="social-card ig-card">
+        <div class="card-icon-wrap">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <div class="card-tag">INSTAGRAM</div>
+          <div class="card-title">@s.chatkawee</div>
+          <div class="card-desc">ดูรูปภาพ สตอรี่ และไลฟ์สไตล์</div>
+        </div>
+        <div class="card-arrow">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </a>
+
+      <!-- 2. Facebook Card -->
+      <a href="https://www.facebook.com/share/1JBMjhsaT9/" target="_blank" rel="noopener noreferrer" class="social-card fb-card">
+        <div class="card-icon-wrap">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <div class="card-tag">FACEBOOK</div>
+          <div class="card-title">Chatkawee (Sakai)</div>
+          <div class="card-desc">ติดตามอัปเดตและพูดคุยทางเฟซบุ๊ก</div>
+        </div>
+        <div class="card-arrow">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </a>
+
+      <!-- 3. TikTok Card -->
+      <a href="https://www.tiktok.com/@sakai.ch" target="_blank" rel="noopener noreferrer" class="social-card tiktok-card">
+        <div class="card-icon-wrap">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 2.89 3.5 2.74 1.13-.01 2.21-.57 2.82-1.52.27-.45.41-.97.42-1.5.03-3.68.01-7.36.01-11.04V.02z"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <div class="card-tag">TIKTOK</div>
+          <div class="card-title">@sakai.ch</div>
+          <div class="card-desc">คลิปสั้น วิดีโอสนุกๆ และคอนเทนต์</div>
+        </div>
+        <div class="card-arrow">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </a>
+
+      <!-- 4. LINE Card -->
+      <a href="https://line.me/ti/p/FBpTYKXnnd" target="_blank" rel="noopener noreferrer" class="social-card line-card">
+        <div class="card-icon-wrap">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.477.254l2.497 3.376V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <div class="card-tag">LINE</div>
+          <div class="card-title">เพิ่มเพื่อน LINE</div>
+          <div class="card-desc">ทักคุยส่วนตัวและติดต่อสอบถาม</div>
+        </div>
+        <div class="card-arrow">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </a>
+
+      <!-- 5. Email Card -->
+      <div class="social-card email-card" id="email-card" role="button" tabindex="0">
+        <div class="card-icon-wrap">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L12 9.573l8.073-6.08c1.618-1.214 3.927-.059 3.927 1.964z"/>
+          </svg>
+        </div>
+        <div class="card-content">
+          <div class="card-tag">EMAIL / WORK</div>
+          <div class="card-title">dcet87089@gmail.com</div>
+          <div class="card-desc">ส่งอีเมลติดต่องานหรือกดคัดลอก</div>
+        </div>
+        <div class="card-action-btns">
+          <a href="mailto:dcet87089@gmail.com" class="card-action-icon" title="ส่งอีเมลทันที" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </a>
+          <button class="card-action-icon copy-btn" id="card-copy-btn" title="คัดลอกอีเมล" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="profile-footer">
+      <p class="copyright">© 2026 Chatkawee (Sakai). All rights reserved.</p>
+      <div class="footer-pills">
+        <span class="status-pill"><span class="pulse-dot"></span> Available for contact</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast" role="alert" aria-live="polite">
+    <div class="toast-icon">✨</div>
+    <span id="toast-message">คัดลอกเรียบร้อยแล้ว!</span>
+  </div>
+
+  <script src="app.js?v=bio2"></script>
 </body>
 </html>
