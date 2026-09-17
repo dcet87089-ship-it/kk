@@ -1,10 +1,12 @@
 /* ==========================================================
-   Chatkawee (Sky) - 3D Interactive Engine & Animations
+   Chatkawee (Sky) - Ultra 3D Interactive Engine
+   Retina-Optimized, Mobile Gyroscope/Touch Parallax & Ripple
    ========================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
   initStarsCanvas();
-  init3DTilt();
+  init3DTiltAndTouch();
+  initTouchRipples();
   initConfettiCanvas();
   initCopyActions();
   initShareAction();
@@ -35,7 +37,7 @@ function showToast(title, message, icon = '✨') {
 }
 
 /* ==========================================================
-   Haptic & Feedback
+   Haptic Feedback
    ========================================================== */
 function triggerHaptic(pattern = 25) {
   if (navigator.vibrate) {
@@ -64,7 +66,7 @@ async function copyToClipboard(text, title = 'คัดลอกสำเร็�
       el.remove();
     }
     showToast(title, message, '📋');
-    triggerHaptic([30, 50, 30]);
+    triggerHaptic([35, 45, 35]);
     launchConfetti();
   } catch (err) {
     showToast('ข้อผิดพลาด', 'ไม่สามารถคัดลอกอัตโนมัติได้: ' + text, '⚠️');
@@ -72,16 +74,16 @@ async function copyToClipboard(text, title = 'คัดลอกสำเร็�
 }
 
 /* ==========================================================
-   Interactive 3D Tilt Engine for Cards & Profile
+   Interactive 3D Tilt & Mobile Gyroscope Engine
    ========================================================== */
-function init3DTilt() {
-  // Check if device prefers reduced motion
+function init3DTiltAndTouch() {
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     return;
   }
 
   const tiltCards = document.querySelectorAll('[data-tilt], .profile-card-3d');
 
+  // Mouse tilt for desktop
   tiltCards.forEach(card => {
     let bounds = null;
 
@@ -94,21 +96,18 @@ function init3DTilt() {
       const centerX = bounds.width / 2;
       const centerY = bounds.height / 2;
 
-      // Calculate tilt angles (limit to subtle elegant degrees)
       const maxTilt = 8;
       const tiltX = -((mouseY - centerY) / centerY) * maxTilt;
       const tiltY = ((mouseX - centerX) / centerX) * maxTilt;
 
-      card.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
-
-      // Set CSS variables for specular light position
+      card.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateZ(6px)`;
       card.style.setProperty('--mouse-x', `${mouseX}px`);
       card.style.setProperty('--mouse-y', `${mouseY}px`);
     }
 
     function handleReset() {
       bounds = null;
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0)';
     }
 
     card.addEventListener('mouseenter', () => {
@@ -120,15 +119,63 @@ function init3DTilt() {
     });
 
     card.addEventListener('mouseleave', handleReset);
+  });
 
-    // Touch support for gentle dynamic response
-    card.addEventListener('touchmove', (e) => {
-      if (e.touches && e.touches[0]) {
-        handleMove(e.touches[0].clientX, e.touches[0].clientY);
-      }
+  // Mobile Device Orientation (Gyroscope Parallax)
+  if (window.DeviceOrientationEvent && typeof window.DeviceOrientationEvent.requestPermission !== 'function') {
+    window.addEventListener('deviceorientation', (e) => {
+      if (e.gamma === null || e.beta === null) return;
+      // Clamp gamma (-30 to 30) and beta (-30 to 30)
+      const tiltY = Math.max(-8, Math.min(8, (e.gamma / 30) * 8));
+      const tiltX = Math.max(-8, Math.min(8, ((e.beta - 45) / 30) * -8));
+
+      tiltCards.forEach(card => {
+        card.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(1)}deg) rotateY(${tiltY.toFixed(1)}deg)`;
+      });
     }, { passive: true });
+  }
+}
 
-    card.addEventListener('touchend', handleReset, { passive: true });
+/* ==========================================================
+   Touch Ripple Effect for Tactile Mobile Feedback
+   ========================================================== */
+function initTouchRipples() {
+  const interactiveElements = document.querySelectorAll('.luxe-card, .glass-btn, .icon-circle-btn');
+
+  interactiveElements.forEach(el => {
+    el.addEventListener('pointerdown', (e) => {
+      triggerHaptic(20);
+      const rect = el.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      const size = Math.max(rect.width, rect.height) * 1.5;
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top - size / 2;
+
+      ripple.style.cssText = `
+        position: absolute;
+        width: ${size}px;
+        height: ${size}px;
+        top: ${y}px;
+        left: ${x}px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.35) 0%, transparent 70%);
+        pointer-events: none;
+        transform: scale(0);
+        opacity: 1;
+        transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+        z-index: 10;
+      `;
+
+      el.style.position = el.style.position || 'relative';
+      el.appendChild(ripple);
+
+      requestAnimationFrame(() => {
+        ripple.style.transform = 'scale(1)';
+        ripple.style.opacity = '0';
+      });
+
+      setTimeout(() => ripple.remove(), 550);
+    });
   });
 }
 
@@ -193,7 +240,7 @@ function initCopyActions() {
 }
 
 /* ==========================================================
-   Star Constellations Canvas Engine
+   Retina-Scaled Star Constellations Canvas Engine
    ========================================================== */
 function initStarsCanvas() {
   const canvas = document.getElementById('stars-canvas');
@@ -203,11 +250,17 @@ function initStarsCanvas() {
   let width = 0;
   let height = 0;
   let stars = [];
-  const STAR_COUNT = 45;
+  const STAR_COUNT = 40;
 
   function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
+    const dpr = window.devicePixelRatio || 1;
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.scale(dpr, dpr);
   }
 
   window.addEventListener('resize', resize);
@@ -221,11 +274,11 @@ function initStarsCanvas() {
     init() {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
-      this.radius = Math.random() * 1.5 + 0.4;
-      this.vx = (Math.random() - 0.5) * 0.25;
-      this.vy = (Math.random() - 0.5) * 0.25;
-      this.alpha = Math.random() * 0.6 + 0.2;
-      this.twinkleSpeed = 0.02 * Math.random() + 0.008;
+      this.radius = Math.random() * 1.8 + 0.5;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = (Math.random() - 0.5) * 0.3;
+      this.alpha = Math.random() * 0.7 + 0.2;
+      this.twinkleSpeed = 0.02 * Math.random() + 0.01;
       this.color = Math.random() > 0.4 ? 'rgba(56, 189, 248,' : 'rgba(236, 72, 153,';
     }
 
@@ -238,16 +291,16 @@ function initStarsCanvas() {
       if (this.y < 0) this.y = height;
       if (this.y > height) this.y = 0;
 
-      this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.008;
-      if (this.alpha < 0.1) this.alpha = 0.1;
-      if (this.alpha > 0.8) this.alpha = 0.8;
+      this.alpha += Math.sin(Date.now() * this.twinkleSpeed) * 0.01;
+      if (this.alpha < 0.15) this.alpha = 0.15;
+      if (this.alpha > 0.85) this.alpha = 0.85;
     }
 
     draw() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
       ctx.fillStyle = `${this.color} ${this.alpha})`;
-      ctx.shadowBlur = 8;
+      ctx.shadowBlur = 6;
       ctx.shadowColor = '#38bdf8';
       ctx.fill();
       ctx.shadowBlur = 0;
@@ -261,7 +314,6 @@ function initStarsCanvas() {
   function loop() {
     ctx.clearRect(0, 0, width, height);
 
-    // Subtle connection lines between near stars
     for (let i = 0; i < stars.length; i++) {
       for (let j = i + 1; j < stars.length; j++) {
         const dx = stars[i].x - stars[j].x;
@@ -272,9 +324,9 @@ function initStarsCanvas() {
           ctx.beginPath();
           ctx.moveTo(stars[i].x, stars[i].y);
           ctx.lineTo(stars[j].x, stars[j].y);
-          const lineAlpha = (1 - dist / 100) * 0.07;
+          const lineAlpha = (1 - dist / 100) * 0.09;
           ctx.strokeStyle = `rgba(148, 163, 184, ${lineAlpha})`;
-          ctx.lineWidth = 0.5;
+          ctx.lineWidth = 0.6;
           ctx.stroke();
         }
       }
@@ -292,7 +344,7 @@ function initStarsCanvas() {
 }
 
 /* ==========================================================
-   Confetti Burst Celebration Engine
+   Retina-Scaled Confetti Burst Engine
    ========================================================== */
 let confettiParticles = [];
 let confettiRunning = false;
@@ -302,8 +354,13 @@ function initConfettiCanvas() {
   if (!canvas) return;
 
   function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
   }
   window.addEventListener('resize', resize);
   resize();
@@ -315,19 +372,19 @@ function launchConfetti() {
   const ctx = canvas.getContext('2d');
 
   const colors = ['#38bdf8', '#ec4899', '#a855f7', '#facc15', '#4ade80'];
-  const count = 40;
+  const count = 45;
 
   for (let i = 0; i < count; i++) {
     confettiParticles.push({
       x: window.innerWidth / 2,
-      y: window.innerHeight * 0.65,
+      y: window.innerHeight * 0.6,
       w: Math.random() * 8 + 4,
       h: Math.random() * 6 + 3,
       color: colors[Math.floor(Math.random() * colors.length)],
       vx: (Math.random() - 0.5) * 14,
       vy: (Math.random() - 0.7) * 16,
       rot: Math.random() * 360,
-      rotSpeed: (Math.random() - 0.5) * 12,
+      rotSpeed: (Math.random() - 0.5) * 14,
       alpha: 1,
       gravity: 0.35
     });
@@ -340,7 +397,7 @@ function launchConfetti() {
 }
 
 function animateConfetti(ctx, canvas) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
   for (let i = confettiParticles.length - 1; i >= 0; i--) {
     const p = confettiParticles[i];
@@ -350,7 +407,7 @@ function animateConfetti(ctx, canvas) {
     p.rot += p.rotSpeed;
     p.alpha -= 0.015;
 
-    if (p.alpha <= 0 || p.y > canvas.height) {
+    if (p.alpha <= 0 || p.y > window.innerHeight) {
       confettiParticles.splice(i, 1);
       continue;
     }
@@ -367,7 +424,7 @@ function animateConfetti(ctx, canvas) {
   if (confettiParticles.length > 0) {
     requestAnimationFrame(() => animateConfetti(ctx, canvas));
   } else {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     confettiRunning = false;
   }
 }
