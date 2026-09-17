@@ -7,10 +7,33 @@ document.addEventListener('DOMContentLoaded', () => {
   initStarsCanvas();
   init3DTiltAndTouch();
   initTouchRipples();
+  initCoinInteraction();
   initConfettiCanvas();
   initCopyActions();
   initShareAction();
 });
+
+/* ==========================================================
+   3D Rotating Coin Tap / Flip Boost
+   ========================================================== */
+function initCoinInteraction() {
+  const coin = document.getElementById('avatar-coin');
+  if (!coin) return;
+
+  let isFlipping = false;
+  coin.addEventListener('click', () => {
+    if (isFlipping) return;
+    isFlipping = true;
+    triggerHaptic([40, 60, 40]);
+    coin.classList.add('flip-boost');
+    launchConfetti();
+
+    setTimeout(() => {
+      coin.classList.remove('flip-boost');
+      isFlipping = false;
+    }, 1150);
+  });
+}
 
 /* ==========================================================
    Toast Notification System
