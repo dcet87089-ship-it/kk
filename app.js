@@ -67,8 +67,8 @@ function initShareAction() {
   shareBtn.addEventListener('click', async () => {
     triggerHaptic();
     const shareData = {
-      title: 'Chatkawee (Sakai) - Official Links',
-      text: 'รวมช่องทางการติดต่อและโซเชียลมีเดียของ Chatkawee (Sakai)',
+      title: 'Chatkawee (Sky) - Official Links',
+      text: 'รวมช่องทางการติดต่อและโซเชียลมีเดียของ Chatkawee (Sky)',
       url: window.location.href
     };
 
@@ -205,3 +205,4 @@ function initParticleCanvas() {
 
   animate();
 }
+
