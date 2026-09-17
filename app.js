@@ -260,6 +260,24 @@ function initCopyActions() {
       copyToClipboard(targetEmail, 'คัดลอกอีเมลเรียบร้อย', targetEmail);
     });
   }
+
+  // Krungthai Bank Account Copy
+  const ktbBtn = document.getElementById('copy-ktb-btn');
+  if (ktbBtn) {
+    ktbBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      copyToClipboard('6618015839', 'คัดลอกบัญชีกรุงไทยเรียบร้อย', '661-801-5839 (ธนาคารกรุงไทย)');
+    });
+  }
+
+  // PromptPay Copy
+  const promptpayBtn = document.getElementById('copy-promptpay-btn');
+  if (promptpayBtn) {
+    promptpayBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      copyToClipboard('0803567635', 'คัดลอกเบอร์พร้อมเพย์เรียบร้อย', '080-356-7635 (พร้อมเพย์)');
+    });
+  }
 }
 
 /* ==========================================================

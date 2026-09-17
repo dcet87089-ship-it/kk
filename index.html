@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700&family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css?v=coin6">
+  <link rel="stylesheet" href="style.css?v=ktb7">
 </head>
 <body>
   <!-- Ambient Cosmic & Aurora Mesh Backdrop (Hardware Accelerated) -->
@@ -68,16 +68,10 @@
               <div class="coin-glare"></div>
             </div>
             
-            <!-- Back Face: 3D Holographic Medallion -->
+            <!-- Back Face: Profile Image (Both Sides) -->
             <div class="coin-face coin-back">
               <div class="coin-bezel"></div>
-              <div class="coin-back-pattern"></div>
-              <div class="coin-back-content">
-                <div class="coin-crest">✦ 👑 ✦</div>
-                <div class="coin-title">SKY</div>
-                <div class="coin-name">CHATKAWEE</div>
-                <div class="coin-badge">★ OFFICIAL ★</div>
-              </div>
+              <img src="profile.png?v=ktb7" alt="Chatkawee (Sky)" class="avatar-img">
               <div class="coin-glare"></div>
             </div>
           </div>
@@ -114,7 +108,7 @@
           <!-- Floating Badges / Tags -->
           <div class="tags-cluster">
             <span class="tag-pill tag-sky">
-              <span class="tag-icon">🏊‍♂️</span> Lifestyle & Pool
+              <span class="tag-icon">🎮</span> เล่นเกม RoV & FF
             </span>
             <span class="tag-pill tag-neon">
               <span class="tag-icon">⚡</span> Creator
@@ -286,7 +280,67 @@
         </div>
       </a>
 
-      <!-- 5. EMAIL / WORK LUXE 3D CARD -->
+      <!-- 5. KRUNGTHAI BANK (KTB & PROMPTPAY) LUXE 3D CARD -->
+      <div class="luxe-card ktb-theme" id="ktb-card" data-tilt>
+        <div class="card-ambient-bg"></div>
+        <div class="card-specular-light"></div>
+        <div class="card-sheen-sweep"></div>
+
+        <div class="bank-card-container">
+          <!-- Top Row: Bank Icon & Title -->
+          <div class="bank-top-row">
+            <div class="app-icon-box ktb-icon-box">
+              <div class="icon-glow-shadow"></div>
+              <!-- Official Krungthai Vayupak Bird / Bank SVG -->
+              <svg class="app-svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7v2h20V7L12 2zm0 2.8L18.4 7H5.6L12 4.8zM4 11v7h3v-7H4zm6.5 0v7h3v-7h-3zm6.5 0v7h3v-7h-3zM2 20v2h20v-2H2z"/>
+              </svg>
+            </div>
+            
+            <div class="card-texts">
+              <div class="tag-row">
+                <span class="platform-name">KRUNGTHAI BANK</span>
+                <span class="badge-pill ktb-badge">ธนาคารกรุงไทย</span>
+              </div>
+              <div class="handle-title">บัญชี & พร้อมเพย์</div>
+              <div class="handle-subtitle">แตะเพื่อคัดลอกเลขบัญชีหรือพร้อมเพย์ 💸</div>
+            </div>
+          </div>
+
+          <!-- Account Items Grid -->
+          <div class="bank-accounts-grid">
+            <!-- Account 1: KTB Bank Account -->
+            <div class="bank-item" id="copy-ktb-btn" role="button" tabindex="0" title="แตะเพื่อคัดลอกเลขบัญชีกรุงไทย">
+              <div class="bank-item-info">
+                <span class="bank-item-label">🏦 บัญชีกรุงไทย</span>
+                <span class="bank-item-num">6618015839</span>
+              </div>
+              <button class="bank-copy-icon-btn" aria-label="คัดลอกเลขบัญชี">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Account 2: PromptPay -->
+            <div class="bank-item" id="copy-promptpay-btn" role="button" tabindex="0" title="แตะเพื่อคัดลอกเบอร์พร้อมเพย์">
+              <div class="bank-item-info">
+                <span class="bank-item-label">⚡ พร้อมเพย์ (พพ)</span>
+                <span class="bank-item-num">0803567635</span>
+              </div>
+              <button class="bank-copy-icon-btn" aria-label="คัดลอกเบอร์พร้อมเพย์">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. EMAIL / WORK LUXE 3D CARD -->
       <div class="luxe-card email-theme" id="email-card" data-tilt role="button" tabindex="0">
         <div class="card-ambient-bg"></div>
         <div class="card-specular-light"></div>
@@ -352,6 +406,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=coin6"></script>
+  <script src="app.js?v=ktb7"></script>
 </body>
 </html>
